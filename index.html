@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ff7b68">
+  <meta name="description" content="Descobre atividades e eventos para crianças e famílias.">
+  <title>CriançaFel — Eventos para crescer a sorrir</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="CriançaFel página inicial">
+      <span class="brand-mark" aria-hidden="true">☺</span>
+      <span><strong>CriançaFel</strong><small>Pequenas aventuras, grandes memórias</small></span>
+    </a>
+    <button id="adminToggle" class="button button-light" type="button">Área de gestão</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">TEMPO DE QUALIDADE EM FAMÍLIA</span>
+        <h1>Há sempre uma<br><em>aventura à espera.</em></h1>
+        <p>Descobre oficinas, brincadeiras e experiências para viver em família.</p>
+        <a class="button button-primary" href="#eventos">Explorar eventos <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-art" aria-label="Ilustração decorativa de sol, arco-íris e nuvens" role="img">
+        <div class="sun">✦</div><div class="rainbow"><span></span><span></span><span></span></div>
+        <div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+        <div class="flower flower-one">✿</div><div class="flower flower-two">✿</div>
+        <div class="hill"></div>
+      </div>
+    </section>
+
+    <section class="section" id="eventos">
+      <div class="section-heading">
+        <div><span class="eyebrow">FEITOS PARA PARTILHAR</span><h2>Próximas aventuras</h2></div>
+        <span id="eventCount" class="count-pill">0 eventos</span>
+      </div>
+      <div class="filters">
+        <label class="search-label">Pesquisar
+          <input id="searchInput" type="search" placeholder="Ex.: música, natureza…" autocomplete="off">
+        </label>
+        <label>Localidade
+          <select id="locationFilter"><option value="">Todas as localidades</option></select>
+        </label>
+        <label>Idade
+          <select id="ageFilter">
+            <option value="">Todas as idades</option><option value="0-2">0–2 anos</option>
+            <option value="3-5">3–5 anos</option><option value="6-9">6–9 anos</option>
+            <option value="10+">10+ anos</option>
+          </select>
+        </label>
+      </div>
+      <div id="eventGrid" class="event-grid" aria-live="polite"></div>
+      <div id="emptyState" class="empty-state hidden">
+        <span>🌱</span><h3>Não encontrámos aventuras</h3><p>Experimenta alterar os filtros.</p>
+      </div>
+    </section>
+
+    <section class="family-note">
+      <span class="note-icon">♡</span>
+      <div><h2>Mais tempo juntos, menos tempo à procura.</h2><p>Um espaço para descobrir atividades, conhecer novas experiências e criar memórias em família.</p></div>
+    </section>
+
+    <section id="adminPanel" class="section admin-panel hidden">
+      <div class="section-heading"><div><span class="eyebrow">DEMONSTRAÇÃO LOCAL</span><h2>Área de gestão</h2></div><button id="closeAdmin" class="button button-light">Fechar</button></div>
+      <div class="notice"><strong>Importante:</strong> esta área é apenas uma demonstração no teu navegador. Ainda não tem autenticação, base de dados nem publicação online. Não uses dados pessoais reais.</div>
+      <div class="admin-grid">
+        <form id="eventForm" class="panel-card">
+          <h3>Adicionar evento de demonstração</h3>
+          <label>Nome do evento<input name="title" required maxlength="80" placeholder="Ex.: Oficina das cores"></label>
+          <div class="form-row"><label>Data<input name="date" type="date" required></label><label>Hora<input name="time" type="time" value="10:00" required></label></div>
+          <div class="form-row"><label>Localidade<input name="location" required placeholder="Ponta Delgada"></label><label>Idades<input name="age" required placeholder="3–5 anos"></label></div>
+          <label>Categoria<select name="category"><option>Oficina criativa</option><option>Natureza</option><option>Música</option><option>Movimento</option><option>Histórias</option><option>Outro</option></select></label>
+          <label>Descrição<textarea name="description" required rows="3" maxlength="240" placeholder="O que vão fazer nesta atividade?"></textarea></label>
+          <div class="form-row"><label>Lugares disponíveis<input name="capacity" type="number" min="1" max="500" value="12" required></label><label>Organizador<input name="organizer" required placeholder="Nome do organizador"></label></div>
+          <button class="button button-primary" type="submit">Adicionar como pendente</button>
+        </form>
+        <div class="panel-card">
+          <h3>Eventos para aprovação</h3>
+          <p class="muted">Os eventos adicionados aqui ficam guardados apenas nesta sessão do navegador.</p>
+          <div id="pendingList" class="pending-list"></div>
+        </div>
+      </div>
+      <div class="panel-card bookings-card"><h3>Reservas de demonstração</h3><p class="muted">As reservas feitas neste protótipo aparecem abaixo. Os dados não são enviados para nenhum servidor.</p><div id="bookingList"></div></div>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="#"><span class="brand-mark">☺</span><span><strong>CriançaFel</strong><small>Pequenas aventuras, grandes memórias</small></span></a><p>Protótipo demonstrativo · Ainda não publicado</p></footer>
+
+  <dialog id="bookingDialog" class="modal">
+    <form id="bookingForm" method="dialog">
+      <button class="modal-close" type="button" id="closeBooking" aria-label="Fechar">×</button>
+      <span class="eyebrow">RESERVA GRATUITA</span><h2 id="bookingTitle">Reservar lugares</h2>
+      <p id="bookingDetails" class="muted"></p>
+      <label>Nome do adulto responsável<input name="adult" required maxlength="100" autocomplete="name" placeholder="Nome completo"></label>
+      <label>Email de contacto<input name="email" type="email" required maxlength="160" autocomplete="email" placeholder="nome@exemplo.pt"></label>
+      <label>Número de lugares<select name="seats" id="seatCount"><option value="1">1 lugar</option><option value="2">2 lugares</option><option value="3">3 lugares</option><option value="4">4 lugares</option><option value="5">5 lugares</option></select></label>
+      <p class="privacy-note">Demonstração: usa apenas dados fictícios. Esta versão não envia emails nem guarda reservas num servidor.</p>
+      <button class="button button-primary full-width" type="submit">Confirmar reserva de teste</button>
+      <p id="bookingMessage" class="success-message hidden" role="status"></p>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
